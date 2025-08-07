@@ -8,3 +8,6 @@ Combining Terminal and Commit, but that would make termit. So I just converted t
 **Python**: To assist in making the scripts and automation for the local version control system
 **Shell**: Incorporated inside the scripting and automation but would be heavily emphasised in the testing component.
 (This probably the shallowest tech stack ever, if all tech stacks were layered like burgers, mine would be like a singular pancake(Python) with a drizzle of syrup(Shell). Still deciding what my butter should be to top it all of🤔.
+
+# Live Demo:
+**COMING SOON**
