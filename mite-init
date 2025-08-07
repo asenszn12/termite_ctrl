@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import sys 
-import re 
 import os 
 
 if os.path.isdir(".mite"):
