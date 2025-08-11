@@ -17,7 +17,6 @@ if not os.path.exists('.mite'):
 filenames = sys.argv[1:]
 index_path = ".mite/index"
 
-
 # it just prepares the files to be committed later 
 os.makedirs(index_path, exist_ok=True)
 
@@ -25,3 +24,9 @@ for filename in filenames:
     if not is_valid_filename(filename):
         print(f"mite-add: error: invalid filename '{filename}'")
         continue
+
+    if os.path.isfile(filename):
+    # copy that file and its metadata into .mygit/index/
+        dst = os.path.join(index_path, os.path.basename(filename))
+        # copy the the contents from filename into dst 
+        shutil.copy2(filename, dst)
