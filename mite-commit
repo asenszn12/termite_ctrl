@@ -74,7 +74,9 @@ if a_option:
         if os.path.isfile(file):
             shutil.copy2(file, os.path.join(index_path, file))            
 
+# use commit_index to find recent committed files and compare with index file
 if same_as_last_commit(commit_index, commit_path, index_path):
+    # if the latest commit path and index path are the same, we don't commit anything
     print("nothing to commit")
     sys.exit(0)
 
