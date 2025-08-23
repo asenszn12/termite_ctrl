@@ -26,7 +26,7 @@ for filename in filenames:
         continue
 
     if os.path.isfile(filename):
-    # copy that file and its metadata into .mygit/index/
+    # copy that file and its metadata into .mite/index/
         dst = os.path.join(index_path, os.path.basename(filename))
         # copy the the contents from filename into dst 
         shutil.copy2(filename, dst)
