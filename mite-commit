@@ -1,2 +1,45 @@
 #!/usr/bin/env python3
 
+import sys
+import re 
+import os 
+import shutil
+import filecmp
+
+index_path = '.mygit/index'    
+
+if not os.path.isdir(index_path):
+    sys.exit(1)
+
+args = sys.argv[1:]
+
+commit_path = '.mygit/commits'
+
+commit_message = args[m_index + 1]
+
+# if index path is not found. then it must be an mygive-add error  
+if not os.path.isdir(index_path):
+    print("mygit-commit: error: index directory not found, did you run mygit-add?")
+    sys.exit(1)
+
+os.makedirs(commit_path, exist_ok=True)
+
+# check if a dir exists with the commit index inside commit_path
+commit_index = 0
+while os.path.exists(os.path.join(commit_path, str(commit_index))):
+    commit_index += 1
+new_commit_path = os.path.join(commit_path, str(commit_index))        
+
+os.makedirs(new_commit_path)
+
+for filename in os.listdir(index_path):
+    src = os.path.join(index_path, filename)
+    dst = os.path.join(new_commit_path, filename)
+    shutil.copy2(src,dst)
+
+# A commit message file into commit path and make it writable
+with open(os.path.join(new_commit_path, "commit_message.txt"), "w") as f:
+    # Write in the commit_message.txt file what message u wrote in command line
+    f.write(commit_message + '\n')
+
+print(f"Committed as commit {commit_index}")
