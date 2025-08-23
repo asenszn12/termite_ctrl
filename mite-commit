@@ -31,7 +31,7 @@ def same_as_last_commit(commit_index, commit_path, index_path):
 
 #===============================Functions=======================================
 
-index_path = '.mygit/index'    
+index_path = '.mite/index'    
 
 if not os.path.isdir(index_path):
     sys.exit(1)
@@ -40,24 +40,24 @@ args = sys.argv[1:]
 
 # if -m is not in the argument
 if '-m' not in args:
-    print("usage: ./mygit-commit [-a] -m 'your-message'")
+    print("usage: ./mite-commit [-a] -m 'your-message'")
     sys.exit(1) 
 
 m_index = args.index('-m')
 
 # if argument is less than the m_index + commit msg 
 if len(args) <= m_index + 1 :
-    print("usage: ./mygit-commit [-a] -m 'your-message'")
+    print("usage: ./mite-commit [-a] -m 'your-message'")
     sys.exit(1)
 
-commit_path = '.mygit/commits'
+commit_path = '.mite/commits'
 # Save commit_message and check if -a command was passed
 commit_message = args[m_index + 1]
 a_option = '-a' in args
  
 # if index path is not found. then it must be an mygive-add error  
 if not os.path.isdir(index_path):
-    print("mygit-commit: error: index directory not found, did you run mygit-add?")
+    print("mite-commit: error: index directory not found, did you run mite-add?")
     sys.exit(1)
 
 os.makedirs(commit_path, exist_ok=True)
