@@ -6,6 +6,31 @@ import os
 import shutil
 import filecmp
 
+# check if new commit is same as last commit or not
+def same_as_last_commit(commit_index, commit_path, index_path):
+    # commit 0 has nothing to compare with 
+    if commit_index == 0:
+        return False
+    # if comit index > 0, then check commit files with inewly added index files
+    # get previous commit path, get prev files and index files
+    prev_commit = os.path.join(commit_path, str(commit_index - 1))
+    # get all files from prev commit folder and sort but skip the commit.msg one 
+    prev_files = sorted(f for f in os.listdir(prev_commit) if f != "commit_message.txt")
+    index_files = sorted(os.listdir(index_path))
+
+    if prev_files != index_files:
+        return False
+
+    for filename in index_files:
+        index_file = os.path.join(index_path, filename)
+        prev_file = os.path.join(prev_commit, filename)
+        # make sure the files are properly compared to see if there are any changes
+        if not filecmp.cmp(prev_file, index_file, shallow=False):
+            return False
+    return True
+
+#===============================Functions=======================================
+
 index_path = '.mygit/index'    
 
 if not os.path.isdir(index_path):
@@ -29,6 +54,10 @@ commit_index = 0
 while os.path.exists(os.path.join(commit_path, str(commit_index))):
     commit_index += 1
 new_commit_path = os.path.join(commit_path, str(commit_index))        
+
+if same_as_last_commit(commit_index, commit_path, index_path):
+    print("nothing to commit")
+    sys.exit(0)
 
 os.makedirs(new_commit_path)
 
