@@ -55,7 +55,7 @@ commit_path = '.mite/commits'
 commit_message = args[m_index + 1]
 a_option = '-a' in args
  
-# if index path is not found. then it must be an mygive-add error  
+# if index path is not found. then it must be an mite-add error  
 if not os.path.isdir(index_path):
     print("mite-commit: error: index directory not found, did you run mite-add?")
     sys.exit(1)
