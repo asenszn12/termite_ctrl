@@ -4,7 +4,6 @@
 # Each line contains the "number commit_message
 import os 
 
-# def main():
 commit_path = '.mite/commits'
 filename = 'commit_message.txt'
 
@@ -14,9 +13,8 @@ if not os.path.isdir(commit_path):
 
 # store information about commits (mainly the commit_dir AND commit_message.txt)
 commits = []
-# check each dir in commits
 for commit_dir in os.listdir(commit_path):
-# then check through the files in the numbered dir 
+# check each dir for commits and check through the files in the numbered dir 
     full_dir_path = os.path.join(commit_path, commit_dir)
     if os.path.isdir(full_dir_path):
         commit_msg_path = os.path.join(full_dir_path, filename)
