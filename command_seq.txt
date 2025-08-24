@@ -1,3 +1,39 @@
 KEY:
 $ - Command
 # - Expected output
+
+$ ./mite-init
+Initialized empty mite repository in .mite
+echo line 1 > a
+echo hello world >b
+$ ./mite-add a b
+$ ./mite-commit -m 'first commit'
+Committed as commit 0
+echo  line 2 >>a
+$ ./mite-add a
+$ ./mite-commit -m 'second commit'
+Committed as commit 1
+$ ./mite-log
+1 second commit
+0 first commit
+echo line 3 >>a
+$ ./mite-add a
+echo line 4 >>a
+$ ./mite-show 0:a
+line 1
+$ ./mite-show 1:a
+line 1
+line 2
+$ ./mite-show :a
+line 1
+line 2
+line 3
+cat a
+line 1
+line 2
+line 3
+line 4
+$ ./mite-show 0:b
+hello world
+$ ./mite-show 1:b
+hello world
