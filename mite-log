@@ -5,7 +5,7 @@
 import os 
 
 # def main():
-commit_path = '.mygit/commits'
+commit_path = '.mite/commits'
 filename = 'commit_message.txt'
 
 # If no commit dir, exit silently
