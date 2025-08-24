@@ -25,3 +25,9 @@ for commit_dir in os.listdir(commit_path):
             with open(commit_msg_path, 'r') as commit_msg_file:
                 message = commit_msg_file.read().strip()
             commits.append([commit_dir, mod_time, message])   
+
+# sorts by modification time by descending order
+commits.sort(key=lambda x: x[1], reverse=True)  
+
+for commit_dir, mod_time, message in commits:
+    print(f"{commit_dir} {message}")
