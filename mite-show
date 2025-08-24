@@ -25,3 +25,19 @@ if ':' in arg:
                 print(file.read(), end='')
         else:
             print(f"mite-show: error: '{filename}' not found in index")
+    # else, go into the specified commit folder and print the file
+    else:
+        file_path = os.path.join(commit_dir, commit_part, filename)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as file:
+                print(file.read(), end='')
+        elif not os.path.exists(os.path.join(commit_dir, commit_part)):
+            print(f"mite-show: error: unknown commit '{commit_part}'")
+        else:
+            print(f"mite-show: error: '{filename}' not found in commit {commit_part}")
+
+
+# if argument wasn't inputted properly, give out usage error
+else:
+    print("usage: mite-show <commit>:<filename>")
+    sys.exit(1)
