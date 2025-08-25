@@ -70,3 +70,20 @@ if '--cached' in options:
         # If we get here, we safely remove from the index
         if os.path.exists(index_file_path):
             os.remove(index_file_path)
+
+
+if '--force' in options and '--cached' not in options:
+    for filename in filenames:
+        index_file_path = os.path.join(index_path, filename)
+        in_index = os.path.exists(index_file_path)
+        
+        # Can't force remove files that aren't in index
+        if not in_index:
+            print(f"mygit-rm: error: '{filename}' is not in the mygit repository")
+            continue
+        
+        # If file is in index or working_dir, remove them
+        if in_index:
+            os.remove(index_file_path)
+        if os.path.exists(filename):
+            os.remove(filename)
