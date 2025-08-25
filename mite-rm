@@ -7,8 +7,8 @@ import os
 import filecmp
 
 args = sys.argv[1:]
-index_path = '.mygit/index'
-commits_dir = '.mygit/commits'
+index_path = '.mite/index'
+commits_dir = '.mite/commits'
 options = set()
 filenames = []
 
@@ -51,9 +51,9 @@ if '--cached' in options:
         index_file_path = os.path.join(index_path, filename)
         latest_commit_path = get_latest_commit_file(filename)
         
-        # Check if file exists in git at all (index OR commits)
+        # Check if file exists in mite at all (index OR commits)
         if not os.path.exists(index_file_path) and latest_commit_path is None:
-            print(f"mygit-rm: error: '{filename}' is not in the mygit repository")
+            print(f"mite-rm: error: '{filename}' is not in the mite repository")
             continue
         
         # Only perform safety checks if --force is NOT present
@@ -64,7 +64,7 @@ if '--cached' in options:
                 index_vs_commit = not files_are_same(index_file_path, latest_commit_path)
                 
                 if index_vs_working and index_vs_commit:
-                    print(f"mygit-rm: error: '{filename}' in index is different to both the working file and the repository")
+                    print(f"mite-rm: error: '{filename}' in index is different to both the working file and the repository")
                     continue
         
         # If we get here, we safely remove from the index
@@ -79,7 +79,7 @@ if '--force' in options and '--cached' not in options:
         
         # Can't force remove files that aren't in index
         if not in_index:
-            print(f"mygit-rm: error: '{filename}' is not in the mygit repository")
+            print(f"mite-rm: error: '{filename}' is not in the mite repository")
             continue
         
         # If file is in index or working_dir, remove them
@@ -99,7 +99,7 @@ if '--cached' not in options and '--force' not in options:
         
         # Check if file does not exist in index or latest commit, dont't remove
         if not in_index and not in_latest_commit:
-            print(f"mygit-rm: error: '{filename}' is not in the mygit repository")
+            print(f"mite-rm: error: '{filename}' is not in the mite repository")
             continue
 
         # Check if index differs from both working and latest commit
@@ -113,24 +113,24 @@ if '--cached' not in options and '--force' not in options:
                 # Prevent removing file if index holds unique changes not
                 present in working dir or repo 
                 """
-                print(f"mygit-rm: error: '{filename}' in index is different to both the working file and the repository")
+                print(f"mite-rm: error: '{filename}' in index is different to both the working file and the repository")
                 continue
 
         # Check if file has staged changes (index differs from the latest commit)
         if in_index and in_latest_commit:
             if not files_are_same(index_file_path, latest_commit_path):
-                print(f"mygit-rm: error: '{filename}' has staged changes in the index")
+                print(f"mite-rm: error: '{filename}' has staged changes in the index")
                 continue
 
         # Check if working file differs from latest commit
         if in_working_dir and in_latest_commit:
             if not files_are_same(filename, latest_commit_path):
-                print(f"mygit-rm: error: '{filename}' in the repository is different to the working file")
+                print(f"mite-rm: error: '{filename}' in the repository is different to the working file")
                 continue
 
         # Check if file only exists in index
         if in_index and not in_latest_commit:
-            print(f"mygit-rm: error: '{filename}' has staged changes in the index")
+            print(f"mite-rm: error: '{filename}' has staged changes in the index")
             continue
                 
         # If we pass all the above, then we can safely remove
