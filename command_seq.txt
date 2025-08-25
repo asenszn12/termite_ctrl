@@ -37,3 +37,24 @@ $ ./mite-show 0:b
 hello world
 $ ./mite-show 1:b
 hello world
+
+----
+
+$ ./mite-init
+Initialized empty mite repository in .mite
+$ touch a b c d e f g h
+$ ./mite-add a b c d e f
+$ ./mite-commit -m 'first commit'
+Committed as commit 0
+$ echo hello >a
+$ echo hello >b
+$ ./mite-commit -a -m 'second commit'
+Committed as commit 1
+$ echo world >>a
+$ echo world >>b
+$ echo hello world >c
+$ ./mite-add a
+$ echo world >>b
+# rm d
+$ ./mite-rm e
+$ ./mite-add g
