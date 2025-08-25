@@ -1,1 +1,21 @@
 #!/usr/bin/env python3
+
+# Removes file from index OR from curr directory AND index 
+
+import sys
+import os 
+import filecmp
+
+args = sys.argv[1:]
+index_path = '.mygit/index'
+commits_dir = '.mygit/commits'
+options = set()
+filenames = []
+
+# If cached and force remove options exist in argument
+for arg in args:
+    if arg == '--cached' or arg == '--force':
+        options.add(arg)
+    # Else if no options, only attach filenames for our arguments
+    else:
+        filenames.append(arg)
