@@ -44,3 +44,29 @@ def files_are_same(file1, file2):
     if not os.path.exists(file1) or not os.path.exists(file2):
         return False
     return filecmp.cmp(file1, file2, shallow=False)
+
+
+if '--cached' in options:
+    for filename in filenames:
+        index_file_path = os.path.join(index_path, filename)
+        latest_commit_path = get_latest_commit_file(filename)
+        
+        # Check if file exists in git at all (index OR commits)
+        if not os.path.exists(index_file_path) and latest_commit_path is None:
+            print(f"mygit-rm: error: '{filename}' is not in the mygit repository")
+            continue
+        
+        # Only perform safety checks if --force is NOT present
+        if '--force' not in options:
+            if (os.path.exists(index_file_path) and os.path.exists(filename) and latest_commit_path):
+                # Check if index differs from both working and repo
+                index_vs_working = not files_are_same(index_file_path, filename)
+                index_vs_commit = not files_are_same(index_file_path, latest_commit_path)
+                
+                if index_vs_working and index_vs_commit:
+                    print(f"mygit-rm: error: '{filename}' in index is different to both the working file and the repository")
+                    continue
+        
+        # If we get here, we safely remove from the index
+        if os.path.exists(index_file_path):
+            os.remove(index_file_path)
