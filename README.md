@@ -41,6 +41,13 @@ Shows the history of commits (commit number + message).
 ### `mite-show [commit]:<filename>`
 Displays the contents of a file at a specific commit (or from the index if no commit is given). 
 
+### `mite-rm [--force] [--cached] <filenames...>`
+Removes files from the repository.  
+- **Default:** Removes file from both the index *and* the working directory.  
+- **`--cached`:** Removes only from the index (keeps the working file).  
+- **`--force`:** Overrides safety checks and removes files even if changes would be lost.  
+- ALSO prevents accidental data loss by default (warns if file differs between index, working directory, or repository).  
+
 (And many more commands to be automated)
 
 ## 📌 Notes
