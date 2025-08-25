@@ -19,3 +19,23 @@ for arg in args:
     # Else if no options, only attach filenames for our arguments
     else:
         filenames.append(arg)
+
+
+if not os.path.isdir(index_path):
+    sys.exit(1)
+
+def get_latest_commit_file(filename):
+    try:
+        if not os.path.exists(commits_dir):
+            return None
+        
+        # Get all numbered commit directories and find the highest
+        commit_nums = [int(d) for d in os.listdir(commits_dir) if d.isdigit()]
+        if not commit_nums:
+            return None
+            
+        latest_commit = max(commit_nums)
+        commit_file_path = f'{commits_dir}/{latest_commit}/{filename}'
+        return commit_file_path if os.path.exists(commit_file_path) else None
+    except:
+        return None
