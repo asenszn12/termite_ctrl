@@ -87,3 +87,54 @@ if '--force' in options and '--cached' not in options:
             os.remove(index_file_path)
         if os.path.exists(filename):
             os.remove(filename)
+
+
+if '--cached' not in options and '--force' not in options:
+    for filename in filenames:
+        index_file_path = os.path.join(index_path, filename)
+        latest_commit_path = get_latest_commit_file(filename)
+        in_index = os.path.exists(index_file_path)
+        in_working_dir = os.path.exists(filename)
+        in_latest_commit = latest_commit_path is not None
+        
+        # Check if file does not exist in index or latest commit, dont't remove
+        if not in_index and not in_latest_commit:
+            print(f"mygit-rm: error: '{filename}' is not in the mygit repository")
+            continue
+
+        # Check if index differs from both working and latest commit
+        if in_index and in_working_dir and in_latest_commit:
+            index_vs_working = not files_are_same(index_file_path, filename)
+            index_vs_commit = not files_are_same(index_file_path, latest_commit_path)
+
+            # If the index is not the same as the latest commit or working_dir file            
+            if index_vs_working and index_vs_commit:
+                """
+                # Prevent removing file if index holds unique changes not
+                present in working dir or repo 
+                """
+                print(f"mygit-rm: error: '{filename}' in index is different to both the working file and the repository")
+                continue
+
+        # Check if file has staged changes (index differs from the latest commit)
+        if in_index and in_latest_commit:
+            if not files_are_same(index_file_path, latest_commit_path):
+                print(f"mygit-rm: error: '{filename}' has staged changes in the index")
+                continue
+
+        # Check if working file differs from latest commit
+        if in_working_dir and in_latest_commit:
+            if not files_are_same(filename, latest_commit_path):
+                print(f"mygit-rm: error: '{filename}' in the repository is different to the working file")
+                continue
+
+        # Check if file only exists in index
+        if in_index and not in_latest_commit:
+            print(f"mygit-rm: error: '{filename}' has staged changes in the index")
+            continue
+                
+        # If we pass all the above, then we can safely remove
+        if in_working_dir:
+            os.remove(filename)
+        if in_index:
+            os.remove(index_file_path)
