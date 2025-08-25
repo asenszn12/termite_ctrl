@@ -39,3 +39,8 @@ def get_latest_commit_file(filename):
         return commit_file_path if os.path.exists(commit_file_path) else None
     except:
         return None
+
+def files_are_same(file1, file2):
+    if not os.path.exists(file1) or not os.path.exists(file2):
+        return False
+    return filecmp.cmp(file1, file2, shallow=False)
