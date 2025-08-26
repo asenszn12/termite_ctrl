@@ -58,3 +58,23 @@ $ echo world >>b
 # rm d
 $ ./mite-rm e
 $ ./mite-add g
+$ ./mite-status
+a - file changed, changes staged for commit
+b - file changed, changes not staged for commit
+c - file changed, changes not staged for commit
+d - file deleted
+e - file deleted, deleted from index
+f - same as repo
+g - added to index
+h - untracked
+mite-add - untracked
+mite-branch - untracked
+mite-checkout - untracked
+mite-commit - untracked
+mite-init - untracked
+mite-log - untracked
+mite-merge - untracked
+mite-rm - untracked
+mite-show - untracked
+mite-status - untracked
+mite.py - untracked
