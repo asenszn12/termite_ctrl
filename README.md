@@ -46,10 +46,11 @@ Removes files from the repository.
 - **Default:** Removes file from both the index *and* the working directory.  
 - **`--staged`:** Removes only from the index (keeps the working file).  
 - **`--force`:** Overrides safety checks and removes files even if changes would be lost.  
-- ALSO prevents accidental data loss by default (warns if file differs between index, working directory, or repository).  
+- ALSO prevents accidental data loss by default (warns if file differs between index, working directory, or repository).
 
-(And many more commands to be automated)
-
+### `mite-status`
+Displays the status of files in the working directory, index, and repository.  
+It shows which files are staged for commit, modified, or untracked.  
 ## 📌 Notes
 - All repository data lives inside the `.mite` directory.  
 - No data is stored outside `.mite`.
