@@ -42,3 +42,13 @@ def get_all_files():
                 files.add(item)
                
     return sorted(files)
+
+def files_are_same(file1, file2):
+    try:
+        # Read through each file and see if they share the same content
+        with open(file1, 'r') as f1, open(file2, 'r') as f2:
+            return f1.read() == f2.read()
+    except:
+        return False
+
+filenames = get_all_files()
