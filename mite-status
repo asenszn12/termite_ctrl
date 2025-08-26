@@ -20,3 +20,25 @@ def get_latest_commit_file(filename):
         return commit_file_path if os.path.exists(commit_file_path) else None
     except:
         return None
+
+# Attain files from current dirdctory, index and commit to check in status
+def get_all_files():
+    files = set()
+    
+    for item in os.listdir('.'):
+        if os.path.isfile(item) and not item.startswith('.'):
+            files.add(item)
+    
+    if os.path.exists(index_dir):
+        for item in os.listdir(index_dir):
+            files.add(item)
+    
+    if os.path.exists(commits_dir):
+        commit_nums = [int(d) for d in os.listdir(commits_dir) if d.isdigit()]
+        if commit_nums:
+            latest_commit = str(max(commit_nums))
+            latest_commit_path = os.path.join(commits_dir, latest_commit)
+            for item in os.listdir(latest_commit_path):
+                files.add(item)
+               
+    return sorted(files)
