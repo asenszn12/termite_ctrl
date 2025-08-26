@@ -52,3 +52,17 @@ def files_are_same(file1, file2):
         return False
 
 filenames = get_all_files()
+
+for filename in filenames:
+    # Skip commit_message.txt and remove-rf from being tracked
+    if filename == 'commit_message.txt' or filename == 'remove-rf':
+        continue
+        
+    # See where file can (possibly) exist
+    working_path = filename
+    index_path = os.path.join(index_dir, filename)
+    commit_path = get_latest_commit_file(filename)
+    
+    in_working = os.path.exists(working_path)
+    in_index = os.path.exists(index_path)
+    in_commit = commit_path is not None and os.path.exists(commit_path)
