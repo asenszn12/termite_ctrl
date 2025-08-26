@@ -12,9 +12,9 @@ commits_dir = '.mite/commits'
 options = set()
 filenames = []
 
-# If cached and force remove options exist in argument
+# If staged and force remove options exist in argument
 for arg in args:
-    if arg == '--cached' or arg == '--force':
+    if arg == '--staged' or arg == '--force':
         options.add(arg)
     # Else if no options, only attach filenames for our arguments
     else:
@@ -46,7 +46,7 @@ def files_are_same(file1, file2):
     return filecmp.cmp(file1, file2, shallow=False)
 
 
-if '--cached' in options:
+if '--staged' in options:
     for filename in filenames:
         index_file_path = os.path.join(index_path, filename)
         latest_commit_path = get_latest_commit_file(filename)
@@ -72,7 +72,7 @@ if '--cached' in options:
             os.remove(index_file_path)
 
 
-if '--force' in options and '--cached' not in options:
+if '--force' in options and '--staged' not in options:
     for filename in filenames:
         index_file_path = os.path.join(index_path, filename)
         in_index = os.path.exists(index_file_path)
@@ -89,7 +89,7 @@ if '--force' in options and '--cached' not in options:
             os.remove(filename)
 
 
-if '--cached' not in options and '--force' not in options:
+if '--staged' not in options and '--force' not in options:
     for filename in filenames:
         index_file_path = os.path.join(index_path, filename)
         latest_commit_path = get_latest_commit_file(filename)
