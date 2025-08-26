@@ -95,3 +95,21 @@ for filename in filenames:
             print(f"{filename} - added to index")
         else:
             print(f"{filename} - added to index, file changed")
+
+# Conditional to compare if all files existed in these different paths
+    elif in_working and in_index and in_commit:
+        working_eq_index = files_are_same(working_path, index_path)
+        index_eq_commit = files_are_same(index_path, commit_path)
+        working_eq_commit = files_are_same(working_path, commit_path)
+
+        if working_eq_index and index_eq_commit:
+            print(f"{filename} - same as repo")
+        elif working_eq_index and not index_eq_commit:
+            print(f"{filename} - file changed, changes staged for commit")
+        elif not working_eq_index and index_eq_commit:
+            print(f"{filename} - file changed, changes not staged for commit")
+        elif not working_eq_index and not index_eq_commit:
+            if working_eq_commit:
+                print(f"{filename} - file changed, changes staged for commit")
+            else:
+                print(f"{filename} - file changed, different changes staged for commit")
