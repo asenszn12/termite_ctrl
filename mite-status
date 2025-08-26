@@ -66,3 +66,32 @@ for filename in filenames:
     in_working = os.path.exists(working_path)
     in_index = os.path.exists(index_path)
     in_commit = commit_path is not None and os.path.exists(commit_path)
+
+    # Set null condition for status if files do not exist
+    if not in_working and not in_index and not in_commit:
+        print(f"{filename} - untracked")
+    
+    # Then check other conditions with variations (most index-focused)
+    elif not in_working and not in_index and in_commit:
+        print(f"{filename} - file deleted, deleted from index")
+    
+    elif not in_working and in_index and not in_commit:
+        print(f"{filename} - added to index, file deleted")
+    
+    elif not in_working and in_index and in_commit:
+        if files_are_same(index_path, commit_path):
+            print(f"{filename} - file deleted")
+        else:
+            print(f"{filename} - file deleted, deleted from index")
+    
+    elif in_working and not in_index and not in_commit:
+        print(f"{filename} - untracked")
+    
+    elif in_working and not in_index and in_commit:
+        print(f"{filename} - deleted from index")
+    
+    elif in_working and in_index and not in_commit:
+        if files_are_same(working_path, index_path):
+            print(f"{filename} - added to index")
+        else:
+            print(f"{filename} - added to index, file changed")
