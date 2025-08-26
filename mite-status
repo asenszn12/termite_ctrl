@@ -1,2 +1,22 @@
 #!/usr/bin/env python3
 
+
+import os
+
+index_dir = '.mygit/index'
+commits_dir = '.mygit/commits'
+
+def get_latest_commit_file(filename):
+    try:
+        if not os.path.exists(commits_dir):
+            return None
+        
+        # Get all numbered commit directories and find the highest
+        commit_nums = [int(d) for d in os.listdir(commits_dir) if d.isdigit()]
+        if not commit_nums:
+            return None
+        latest_commit = max(commit_nums)
+        commit_file_path = f'{commits_dir}/{latest_commit}/{filename}'
+        return commit_file_path if os.path.exists(commit_file_path) else None
+    except:
+        return None
